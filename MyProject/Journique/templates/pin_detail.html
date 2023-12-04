@@ -7,8 +7,11 @@
 </head>
 <body>
     <h1>Pin Detail</h1>
-    <p>{{ pin.title }}</p>
-    <p>{{ pin.description }}</p>
-    <!-- другие детали пина -->
+    <p>pin title: {{ pin.title }}</p>
+    <p>pin description: {{ pin.description }}</p>
+
+    <!-- изображение картинки -->
+    <img src="{{ pin.image.image.url }}" alt="{{ pin.title }}">
+
 </body>
 </html>
