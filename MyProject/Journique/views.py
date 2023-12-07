@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Pin
 from .forms import PinForm
+from django.http import HttpResponse
 
 
 def home(request):
@@ -31,3 +32,28 @@ def add_pin(request):
         form = PinForm()
 
     return render(request, 'add_pin.html', {'form': form})
+
+
+def view_1(request):
+    if request.method == 'POST':
+        return HttpResponse("View 1 clicked")
+
+
+def view_2(request):
+    if request.method == 'POST':
+        return HttpResponse("View 2 clicked")
+
+
+def view_3(request):
+    if request.method == 'POST':
+        return HttpResponse("View 3 clicked")
+
+
+def view_4(request):
+    if request.method == 'POST':
+        return HttpResponse("View 4 clicked")
+
+
+def view_5(request):
+    if request.method == 'POST':
+        return HttpResponse("View 5 clicked")
