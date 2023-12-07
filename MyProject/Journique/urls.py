@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import pin_list, pin_detail, add_pin, home, view_1, view_2, view_3, view_4, view_5
+from .views import pin_list, pin_detail, add_pin, home, view_1, view_2, view_3, view_4, view_5, profile_view
 
 urlpatterns = [
     path('home/', home, name='home'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('view_3/', view_3, name='view_3'),
     path('view_4/', view_4, name='view_4'),
     path('view_5/', view_5, name='view_5'),
+    path('profile/', profile_view, name='profile'),
 ]

@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
-from .models import Pin
+from .models import Pin, UserProfile
 from .forms import PinForm
 from django.http import HttpResponse
 
 
 def home(request):
     return render(request, 'home.html')
+
+
+def profile_view(request):
+    user = UserProfile.user
+    image = UserProfile.image
+    bio = UserProfile.bio
+    return render(request, 'profile.html')
 
 
 def pin_list(request):
