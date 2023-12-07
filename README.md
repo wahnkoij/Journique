@@ -1,4 +1,4 @@
-# Journique
+# Journique (in process right now)
 
 ## Description
 Journique is a fantastic app for journaling and expressing your thoughts. It provides a seamless and intuitive platform to capture your daily experiences.
