@@ -3,6 +3,10 @@ from .models import Pin
 from .forms import PinForm
 
 
+def home(request):
+    return render(request, 'home.html')
+
+
 def pin_list(request):
     pins = Pin.objects.all()
     return render(request, 'pin_list.html', {'pins': pins})
