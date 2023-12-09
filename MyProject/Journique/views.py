@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Pin, UserProfile
+from .models import Pin, UserProfile, User
 from .forms import PinForm
 from django.http import HttpResponse
 
@@ -40,6 +40,16 @@ def add_pin(request):
 
     return render(request, 'add_pin.html', {'form': form})
 
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User.objects.get(username=username)
+        if user.check_password(password):
+            request.session['user_id'] = user.id
+            return redirect('home')
+    return render(request, 'login.html')
 
 def view_1(request):
     if request.method == 'POST':
