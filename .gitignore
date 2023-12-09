@@ -10,4 +10,6 @@ __pycache__/
 *.pyd
 *.sqlite3
 
+Pinterest_Diploma.md
+
 .env

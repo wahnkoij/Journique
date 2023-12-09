@@ -6,21 +6,24 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     image = models.ImageField()
+    # pins = чтото там
 
 
-class Image(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/')
-    description = models.TextField(blank=True)
+class Category(models.Model):
+    name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Pin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
+    file = models.ImageField(upload_to='images/')
     description = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    delete = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, default='2023-01-01 00:00:00')
 
     def __str__(self):
-        return self.title
+        return f"{self.user.username}'s Pin - {self.uploaded_at}"
+
