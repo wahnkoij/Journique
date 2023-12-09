@@ -1,7 +1,9 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .models import Pin, UserProfile, User
 from .forms import PinForm
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.contrib.auth import login as auth_login
 
 
 def home(request):
@@ -43,22 +45,15 @@ def add_pin(request):
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm-password')
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
 
-        if password != confirm_password:
-            return JsonResponse({'status': 'error', 'message': 'Passwords do not match'})
-
-        # Create a new user
-        try:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            return JsonResponse({'status': 'success', 'message': 'Registration successful'})
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': f'Registration failed: {str(e)}'})
-
-    return render(request, 'register.html')
+    return render(request, 'register.html', {'form': form})
 
 
 def login(request):
@@ -70,6 +65,7 @@ def login(request):
             request.session['user_id'] = user.id
             return redirect('home')
     return render(request, 'login.html')
+
 
 def view_1(request):
     if request.method == 'POST':
