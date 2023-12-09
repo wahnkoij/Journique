@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Pin, UserProfile, User
 from .forms import PinForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 def home(request):
@@ -39,6 +39,26 @@ def add_pin(request):
         form = PinForm()
 
     return render(request, 'add_pin.html', {'form': form})
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm-password')
+
+        if password != confirm_password:
+            return JsonResponse({'status': 'error', 'message': 'Passwords do not match'})
+
+        # Create a new user
+        try:
+            user = User.objects.create_user(username=username, email=email, password=password)
+            return JsonResponse({'status': 'success', 'message': 'Registration successful'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'Registration failed: {str(e)}'})
+
+    return render(request, 'register.html')
 
 
 def login(request):
