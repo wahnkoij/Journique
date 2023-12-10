@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.shortcuts import render, redirect
 from .models import Pin, UserProfile, User
-from .forms import PinForm
+from .forms import PinForm, UserProfileForm
 from django.http import HttpResponse
 from django.contrib.auth import login as auth_login, authenticate
 
@@ -14,6 +14,23 @@ def home(request):
 @login_required
 def profile_view(request):
     return render(request, 'profile.html')
+
+
+@login_required # имба
+def edit_profile(request):
+    if request.method == 'POST':
+        user_form = UserChangeForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
+    else:
+        user_form = UserChangeForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.userprofile)
+
+    return render(request, 'edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 def pin_list(request):

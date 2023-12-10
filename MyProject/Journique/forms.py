@@ -1,5 +1,12 @@
 from django import forms
-from .models import Pin
+from django.contrib.auth.forms import UserChangeForm
+from .models import *
+
+
+class UserProfileForm(UserChangeForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image', 'bio']
 
 
 class PinForm(forms.ModelForm):
