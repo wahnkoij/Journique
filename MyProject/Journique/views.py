@@ -1,19 +1,18 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .models import Pin, UserProfile, User
 from .forms import PinForm
 from django.http import HttpResponse
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, authenticate
 
 
 def home(request):
     return render(request, 'home.html')
 
 
+@login_required
 def profile_view(request):
-    user = UserProfile.user
-    image = UserProfile.image
-    bio = UserProfile.bio
     return render(request, 'profile.html')
 
 
@@ -56,13 +55,13 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = User.objects.get(username=username)
-        if user.check_password(password):
-            request.session['user_id'] = user.id
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
             return redirect('home')
     return render(request, 'login.html')
 

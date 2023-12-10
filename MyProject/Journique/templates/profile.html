@@ -1,11 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Profile</title>
-</head>
-<body>
-    <h1>Welcome to your Profile</h1>
-    <p>Your name: {{ user.first_name }} {{ user.last_name }}</p>
-    <p>Your email: {{ user.email }}</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .profile-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* the heading */
+        .profile-container h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* profile information */
+        .profile-container p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .logout-form {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .logout-button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+
+    <form class="logout-form" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+
+    <div class="profile-container">
+        <h2>Your Profile</h2>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Other profile information -->
+    </div>
+{% endblock %}

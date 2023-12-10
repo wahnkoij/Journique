@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from .views import *
 
@@ -7,11 +8,12 @@ urlpatterns = [
     path('pin/<int:pin_id>/', pin_detail, name='pin_detail'),
     path('pin/add/', add_pin, name='add_pin'),
     path('profile/', profile_view, name='profile'),
-    path('login/', login, name='login'),
+    path('login/', login_view, name='login'),
     path('view_1/', view_1, name='view_1'),
     path('view_2/', view_2, name='view_2'),
     path('view_3/', view_3, name='view_3'),
     path('view_4/', view_4, name='view_4'),
     path('view_5/', view_5, name='view_5'),
-    path('register/', register, name='register')
+    path('register/', register, name='register'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
