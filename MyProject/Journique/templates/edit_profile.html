@@ -2,10 +2,21 @@
 
 {% block content %}
     <h2>Edit Profile</h2>
-    <form method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
+    <form id="edit-profile-form" method="post" enctype="multipart/form-data" action="{% url 'edit_profile' %}">
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
         <button type="submit">Save Changes</button>
     </form>
+
+    <script>
+        function confirmDelete() {
+            if (confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
+                document.getElementById('edit-profile-form').action = "{% url 'delete_profile' %}";
+                document.getElementById('edit-profile-form').submit();
+            }
+        }
+    </script>
+
+    <button type="button" onclick="confirmDelete()">Delete Profile</button>
 {% endblock %}

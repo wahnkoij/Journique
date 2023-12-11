@@ -83,6 +83,15 @@ def login_view(request):
     return render(request, 'login.html')
 
 
+@login_required
+def delete_profile(request):
+    if request.method == 'POST':
+        request.user.delete()
+        return redirect('home')
+
+    return render(request, 'delete_profile.html')
+
+
 def view_1(request):
     if request.method == 'POST':
         return HttpResponse("View 1 clicked")
