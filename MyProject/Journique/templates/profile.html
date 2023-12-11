@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
     <style>
         .profile-container {
             max-width: 400px;
@@ -67,11 +68,15 @@
 
     <div class="profile-container">
         <h2>Your Profile</h2>
-        <img src="{{ user.userprofile.image.url }}" alt="Profile Image" class="profile-image">
+        {% if user.userprofile.image %}
+            <img src="{{ user.userprofile.image.url }}" alt="{{ user.username }}'s profile image" class="profile-image">
+        {% else %}
+            <img src="{% static 'default_profile_image/blank_profile.png' %}" alt="Default profile image" class="profile-image">
+        {% endif %}
+
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }}</p>
         <p>Bio: {{ user.userprofile.bio }}</p>
-        <!-- другая инфа о профиле -->
         <a href="{% url 'edit_profile' %}" class="edit-profile-button">Edit Profile</a>
     </div>
 {% endblock %}

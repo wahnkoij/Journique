@@ -7,8 +7,7 @@ from django.dispatch import receiver
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    image = models.ImageField()
-    # pins = чтото там
+    image = models.ImageField(upload_to='default_profile_image/', default='/default_profile_image/blank_profile.png')
 
 
 @receiver(post_save, sender=User)
@@ -39,4 +38,3 @@ class Pin(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Pin - {self.uploaded_at}"
-
