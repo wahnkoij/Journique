@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,11 +23,17 @@
             font-size: 30px;
             text-align: center;
         }
+
+        .search-form {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">Journique</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Journique</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,9 +52,16 @@
                 {% endif %}
             </ul>
         </div>
+
+        <!-- Search engine (поисковик) -->
+        <form class="form-inline search-form" method="get" action="{% url 'search_users' %}">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search users" name="q">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </nav>
 
     {% block content %}{% endblock %}
 
 </body>
+
 </html>

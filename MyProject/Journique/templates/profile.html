@@ -2,81 +2,26 @@
 
 {% block content %}
     {% load static %}
-    <style>
-        .profile-container {
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* the heading */
-        .profile-container h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* profile information */
-        .profile-container p {
-            margin: 10px 0;
-            color: #666;
-        }
-
-        .logout-form {
-            position: absolute;
-            top: 60px;
-            left: 10px;
-        }
-
-        .logout-button {
-            background-color: #f44336;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .profile-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .edit-profile-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
-
-    <form class="logout-form" method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="logout-button">Logout</button>
-    </form>
-
-    <div class="profile-container">
-        <h2>Your Profile</h2>
-        {% if user.userprofile.image %}
-            <img src="{{ user.userprofile.image.url }}" alt="{{ user.username }}'s profile image" class="profile-image">
-        {% else %}
-            <img src="{% static 'default_profile_image/blank_profile.png' %}" alt="Default profile image" class="profile-image">
-        {% endif %}
-
-        <p>Username: {{ user.username }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Bio: {{ user.userprofile.bio }}</p>
-        <a href="{% url 'edit_profile' %}" class="edit-profile-button">Edit Profile</a>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="logout-form" method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+                <div class="profile-container mt-4">
+                    <h2 class="text-center">Your Profile</h2>
+                    {% if user.userprofile.image %}
+                        <img src="{{ user.userprofile.image.url }}" alt="{{ user.username }}'s profile image" class="profile-image img-fluid rounded-circle mx-auto d-block">
+                    {% else %}
+                        <img src="{% static 'default_profile_image/blank_profile.png' %}" alt="Default profile image" class="profile-image img-fluid rounded-circle mx-auto d-block">
+                    {% endif %}
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Bio:</strong> {{ user.userprofile.bio }}</p>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-success btn-block">Edit Profile</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

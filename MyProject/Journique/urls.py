@@ -4,6 +4,9 @@ from .views import *
 
 urlpatterns = [
     path('home/', home, name='home'),
+    path('users/', user_list, name='user_list'),
+    path('users/<str:username>/', user_profile, name='user_profile'),
+    path('search_users/', search_users, name='search_users'),
     # pins
     path('pins/', pin_list, name='pin_list'),
     path('pin/<int:pin_id>/', pin_detail, name='pin_detail'),
