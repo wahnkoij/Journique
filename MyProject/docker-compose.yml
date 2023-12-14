@@ -7,3 +7,19 @@ services:
       - "8000:8000"
     volumes:
       - .:/usr/src/app
+    depends_on:
+      - db
+    networks:
+      - myproject-network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "journiquedb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "23085634"
+    networks:
+      - myproject-network
+
+networks:
+  myproject-network:

@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'journiquedb',
         'USER': 'postgres',
         'PASSWORD': '23085634',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

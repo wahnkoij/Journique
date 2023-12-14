@@ -7,7 +7,7 @@ Journique is an app designed for posting images and journaling. It provides a se
 ### Technologies Used
 
 - Python
-- Django (Django==5.0)
+- Django (version==3.2)
 - HTML, CSS, JavaScript
 - Bootstrap 
 - PostgreSQL
