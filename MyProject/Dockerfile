@@ -1,5 +1,7 @@
 FROM python:3.8-slim
 
+RUN apt-get update && apt-get install -y netcat-openbsd
+
 WORKDIR /usr/src/app
 
 COPY . .
@@ -13,4 +15,4 @@ EXPOSE 8000
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["./wait-for.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]

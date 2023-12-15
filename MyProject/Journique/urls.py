@@ -18,10 +18,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('delete_profile/', delete_profile, name='delete_profile'),
-    # stupid views
-    path('view_1/', view_1, name='view_1'),
-    path('view_2/', view_2, name='view_2'),
-    path('view_3/', view_3, name='view_3'),
-    path('view_4/', view_4, name='view_4'),
-    path('view_5/', view_5, name='view_5'),
+    path('page_not_found_404/', page_not_found_404, name='404_error'),
 ]

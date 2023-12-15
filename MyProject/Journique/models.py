@@ -28,9 +28,9 @@ class Category(models.Model):
 
 class Pin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    file = models.ImageField(upload_to='images/')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    file = models.ImageField(upload_to='pins/')
     description = models.TextField(blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     delete = models.BooleanField(default=False)
