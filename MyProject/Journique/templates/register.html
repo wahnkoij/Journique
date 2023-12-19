@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-    <h2 style="text-align: center; color: #333;">Register</h2>
+  <div class="container">
+    <h2>Register</h2>
     <form method="post" action="{% url 'register' %}" style="margin-top: 20px;">
 
       {% csrf_token %}
 
-      <div style="margin-bottom: 15px;">
-        <label for="{{ form.username.id_for_label }}" style="display: block; margin-bottom: 5px; color: #666; font-weight: bold;">Username:</label>
+      <div>
+        <label for="{{ form.username.id_for_label }}">Username:</label>
         {{ form.username }}
       </div>
 
-      <div style="margin-bottom: 15px;">
-        <label for="{{ form.password1.id_for_label }}" style="display: block; margin-bottom: 5px; color: #666; font-weight: bold;">Password:</label>
+      <div>
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
         {{ form.password1 }}
       </div>
 
-      <div style="margin-bottom: 15px;">
-        <label for="{{ form.password2.id_for_label }}" style="display: block; margin-bottom: 5px; color: #666; font-weight: bold;">Confirm Password:</label>
+      <div>
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
         {{ form.password2 }}
       </div>
 
-      <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 3px; cursor: pointer;">Register</button>
+      <button type="submit">Register</button>
 
     </form>
   </div>

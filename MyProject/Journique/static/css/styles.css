@@ -1,18 +1,65 @@
+/* Remaining CSS styles */
 .grid-container {
-       display: grid;
-       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-       grid-gap: 10px;
-       padding: 10px;
-   }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+    padding: 10px;
+}
 
-   .grid-item {
-       background-color: #ddd;
-       padding: 20px;
-       font-size: 30px;
-       text-align: center;
-   }
+.grid-item {
+    background-color: #ddd;
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
 
-   .search-form {
-       margin-top: 10px;
-       margin-bottom: 10px;
-   }
+.search-form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
