@@ -12,6 +12,7 @@ Journique is an app designed for posting images and journaling. It provides a se
 - Bootstrap 
 - PostgreSQL
 - Docker
+- Nginx
 - Other relevant technologies...
 
 ### Installation
