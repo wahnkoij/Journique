@@ -94,6 +94,7 @@ def pin_detail(request, pin_id):
     return render(request, 'pin_detail.html', {'pin': pin})
 
 
+@login_required
 def add_pin(request):
     if request.method == 'POST':
         form = PinForm(request.POST, request.FILES)
@@ -103,12 +104,16 @@ def add_pin(request):
             pin.user = request.user
             pin.save()
 
-            return redirect('pin_list')  # перенаправление после успешного добавления
+            return redirect('pin_list')
     else:
         form = PinForm()
 
     return render(request, 'add_pin.html', {'form': form})
 
+
+def pin_detail(request, pin_id):
+    pin = get_object_or_404(Pin, id=pin_id)
+    return render(request, 'pin_detail.html', {'pin': pin})
 
 def page_not_found_404(request):
     return render(request, '404_error.html')

@@ -15,6 +15,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created and not hasattr(instance, 'userprofile'):
         UserProfile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'userprofile'):
@@ -36,5 +37,6 @@ class Pin(models.Model):
     delete = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, default='2023-01-01 00:00:00')
 
-    def __str__(self):
-        return f"{self.user.username}'s Pin - {self.uploaded_at}"
+    def delete_pin(self):
+        self.delete = True
+        self.save()

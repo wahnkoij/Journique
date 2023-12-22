@@ -8,9 +8,9 @@ urlpatterns = [
     path('users/<str:username>/', user_profile, name='user_profile'),
     path('search_users/', search_users, name='search_users'),
     # pins
+    path('pin/add/', add_pin, name='add_pin'),
     path('pins/', pin_list, name='pin_list'),
     path('pin/<int:pin_id>/', pin_detail, name='pin_detail'),
-    path('pin/add/', add_pin, name='add_pin'),
     # profile interaction
     path('profile/', profile_view, name='profile'),
     path('login/', login_view, name='login'),

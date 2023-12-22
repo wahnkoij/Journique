@@ -12,4 +12,4 @@ class UserProfileForm(UserChangeForm):
 class PinForm(forms.ModelForm):
     class Meta:
         model = Pin
-        fields = ['description', 'file', 'user', 'category']
+        fields = ['description', 'file', 'category']

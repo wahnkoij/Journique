@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pin Detail</title>
-</head>
-<body>
-    <h1>Pin Detail</h1>
-    <p>pin title: {{ pin.title }}</p>
-    <p>pin description: {{ pin.description }}</p>
+{% extends 'base.html' %}
 
-    <!-- image -->
-    <img src="{{ pin.image.image.url }}" alt="{{ pin.title }}">
-
-</body>
-</html>
+{% block content %}
+  <h2>Pin Detail</h2>
+  <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
+  <p>{{ pin.description }}</p>
+  <p>Uploaded by: {{ pin.user.username }}</p>
+  <p>Category: {{ pin.category.name }}</p>
+  <p>Uploaded at: {{ pin.uploaded_at }}</p>
+  {# Add more details as needed #}
+  <a href="{% url 'pin_list' %}">Back to Pin List</a>
+{% endblock %}

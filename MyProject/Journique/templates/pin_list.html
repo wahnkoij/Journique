@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pin List</title>
-</head>
-<body>
-    <h1>Pin List</h1>
-    <ul>
-        {% for pin in pins %}
-            <li>{{ pin.title }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Pin List</h2>
+  {% for pin in pins %}
+    <div>
+      <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
+      <p>{{ pin.description }}</p>
+      <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
+    </div>
+  {% endfor %}
+  <a href="{% url 'add_pin' %}">Add Pin</a>
+{% endblock %}
