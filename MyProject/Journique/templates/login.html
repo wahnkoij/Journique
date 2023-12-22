@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <div class="container">
+{% extends 'base.html' %}
+
+{% block content %}
+<title>Login</title>
+<div style="font-family: Arial, sans-serif;">
+    <div style="width: 300px; padding: 16px; background-color: white; margin: 0 auto; margin-top: 100px; border: 1px solid black; border-radius: 4px;">
         <form method="post">
             {% csrf_token %}
-            <label>Username:</label>
-            <input type="text" name="username"><br><br>
-            <label>Password:</label>
-            <input type="password" name="password"><br><br>
-            <button type="submit">Log In</button>
+            <label style="display: block; margin-bottom: 5px;">Username:</label>
+            <input type="text" name="username" style="width: 100%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box;"><br><br>
+            <label style="display: block; margin-bottom: 5px;">Password:</label>
+            <input type="password" name="password" style="width: 100%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box;"><br><br>
+            <button type="submit" style="background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; width: 100%;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">Log In</button>
         </form>
-        <p>No account yet? <a href="{% url 'register' %}">Register here</a>.</p>
+        <p>No account yet? <a href="{% url 'register' %}" style="color: #3498db; text-decoration: none; font-weight: bold;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Register here</a>.</p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
