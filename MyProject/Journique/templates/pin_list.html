@@ -1,13 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <style>
+    /* Add your CSS styles here */
+    .pin-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around; /* Adjust as needed */
+    }
+
+    .pin-item {
+      text-align: center;
+      margin: 10px; /* Adjust as needed */
+    }
+
+    .pin-image {
+      width: 200px; /* Set a fixed width for all images */
+      height: 150px; /* Set a fixed height for all images */
+      object-fit: cover; /* Preserve aspect ratio and cover the container */
+      border: 1px solid #ccc; /* Optional: Add a border for separation */
+    }
+  </style>
+
   <h2>Pin List</h2>
-  {% for pin in pins %}
-    <div>
-      <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
-      <p>{{ pin.description }}</p>
-      <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
-    </div>
-  {% endfor %}
+  <div class="pin-list">
+    {% for pin in pins %}
+      <div class="pin-item">
+        <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="pin-image">
+        <p>{{ pin.description }}</p>
+        <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
+      </div>
+    {% endfor %}
+  </div>
   <a href="{% url 'add_pin' %}">Add Pin</a>
 {% endblock %}
