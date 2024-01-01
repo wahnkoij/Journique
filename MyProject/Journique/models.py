@@ -34,9 +34,9 @@ class Pin(models.Model):
     description = models.TextField(blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    delete = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, default='2023-01-01 00:00:00')
 
     def delete_pin(self):
-        self.delete = True
+        self.is_deleted = True
         self.save()

@@ -9,8 +9,11 @@ services:
       - db
     networks:
       - myproject-network
-
+    volumes:
+      - ${PWD}/Journique:/app
   db:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     image: postgres:latest
     environment:
       POSTGRES_DB: "journiquedb"
@@ -31,3 +34,6 @@ services:
 networks:
   myproject-network:
     driver: bridge
+
+volumes:
+  postgres_data:

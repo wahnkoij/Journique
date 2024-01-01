@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journique</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -42,14 +43,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Create</a>
-                </li>
                 {% if user.is_authenticated %}
                     <li><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                 {% endif %}
+                <li><a class="nav-link" href="{% url 'add_pin' %}">Add Pin</a></li>
             </ul>
         </div>
 

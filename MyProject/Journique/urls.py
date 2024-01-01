@@ -11,6 +11,8 @@ urlpatterns = [
     path('pin/add/', add_pin, name='add_pin'),
     path('pins/', pin_list, name='pin_list'),
     path('pin/<int:pin_id>/', pin_detail, name='pin_detail'),
+    path('pin/<int:pin_id>/edit/', edit_pin, name='edit_pin'),
+    path('pin/<int:pin_id>/delete/', delete_pin, name='delete_pin'),
     # profile interaction
     path('profile/', profile_view, name='profile'),
     path('login/', login_view, name='login'),

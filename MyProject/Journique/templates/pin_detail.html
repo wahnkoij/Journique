@@ -1,12 +1,23 @@
+<!-- pin_detail.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Pin Detail</h2>
-  <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
-  <p>{{ pin.description }}</p>
-  <p>Uploaded by: {{ pin.user.username }}</p>
-  <p>Category: {{ pin.category.name }}</p>
-  <p>Uploaded at: {{ pin.uploaded_at }}</p>
-  {# Add more details as needed #}
-  <a href="{% url 'pin_list' %}">Back to Pin List</a>
+  <div class="pin-detail">
+    <h2>Pin Detail</h2>
+    <div class="pin-details-container">
+      <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="pin-image">
+      <div class="pin-details">
+        <p>{{ pin.description }}</p>
+        <p>Uploaded by: {{ pin.user.username }}</p>
+        <p>Category: {{ pin.category.name }}</p>
+        <p>Uploaded at: {{ pin.uploaded_at }}</p>
+        {# Add more details as needed #}
+      </div>
+    </div>
+    <a href="{% url 'pin_list' %}">Back to Pin List</a>
+
+    {% if pin.user == request.user %}
+      <a href="{% url 'edit_pin' pin.id %}" class="btn btn-primary">Edit Pin</a>
+    {% endif %}
+  </div>
 {% endblock %}

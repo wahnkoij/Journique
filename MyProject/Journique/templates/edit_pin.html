@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Pin</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+
+  <hr>
+
+  <h2>Delete Pin</h2>
+  <p>Are you sure you want to delete this pin?</p>
+
+  <form id="deleteForm" method="post" action="{% url 'delete_pin' pin.id %}">
+    {% csrf_token %}
+    <button type="button" class="btn btn-danger" onclick="showDeleteConfirmation()">Delete</button>
+  </form>
+
+  <button type="button" class="btn btn-secondary" onclick="showCancellationConfirmation()">Cancel</button>
+
+  <script>
+    function showDeleteConfirmation() {
+      var result = confirm("Are you sure you want to delete this pin?");
+      if (result) {
+        document.getElementById('deleteForm').submit();
+      }
+    }
+
+    function showCancellationConfirmation() {
+      var result = confirm("Are you sure you want to cancel?");
+      if (result) {
+        window.location.href = "{% url 'home' %}";
+      }
+    }
+  </script>
+{% endblock %}

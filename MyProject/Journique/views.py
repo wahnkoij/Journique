@@ -3,12 +3,13 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Pin, UserProfile, User
 from .forms import PinForm, UserProfileForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login as auth_login, authenticate
 
 
 def home(request):
-    return render(request, 'home.html')
+    pins = Pin.objects.all()
+    return render(request, 'home.html', {'pins': pins})
 
 
 def user_list(request): # all users
@@ -111,9 +112,35 @@ def add_pin(request):
     return render(request, 'add_pin.html', {'form': form})
 
 
-def pin_detail(request, pin_id):
-    pin = get_object_or_404(Pin, id=pin_id)
-    return render(request, 'pin_detail.html', {'pin': pin})
-
 def page_not_found_404(request):
     return render(request, '404_error.html')
+
+
+@login_required
+def edit_pin(request, pin_id):
+    pin = get_object_or_404(Pin, id=pin_id, user=request.user)
+
+    if request.method == 'POST':
+        form = PinForm(request.POST, instance=pin)
+        if form.is_valid():
+            form.save()
+            return redirect('pin_detail', pin_id=pin.id)
+    else:
+        form = PinForm(instance=pin)
+
+    return render(request, 'edit_pin.html', {'form': form, 'pin': pin})
+
+
+def delete_pin(request, pin_id):
+    pin = get_object_or_404(Pin, id=pin_id)
+
+    if request.method == 'POST':
+        pin.delete()
+        if request.is_ajax():
+            return JsonResponse({'message': 'Pin deleted successfully.'})
+        else:
+            return redirect('home')
+
+    return render(request, 'delete_pin.html', {'pin': pin})
+
+
