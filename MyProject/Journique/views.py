@@ -1,15 +1,25 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Pin, UserProfile, User
-from .forms import PinForm, UserProfileForm
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+
+from .forms import *
+from .models import Pin, UserProfile, User
 
 
 def home(request):
-    pins = Pin.objects.all()
-    return render(request, 'home.html', {'pins': pins})
+    user = request.user
+    if user.is_authenticated:
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        preferred_categories = user_profile.preferred_categories.all()
+        pins = Pin.objects.filter(category__in=preferred_categories, is_deleted=False)
+    else:
+        # If the user is not authenticated,  show all pins
+        pins = Pin.objects.filter(is_deleted=False)
+
+    context = {'pins': pins}
+    return render(request, 'home.html', context)
 
 
 def user_list(request): # all users
@@ -51,12 +61,24 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('home')
+            return redirect('select_preferred_categories')
     else:
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
 
+@login_required
+def select_preferred_categories(request):
+    if request.method == 'POST':
+        form = PreferredCategoriesForm(request.POST, instance=request.user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PreferredCategoriesForm(instance=request.user.userprofile)
+
+    context = {'form': form}
+    return render(request, 'select_preferred_categories.html', context)
 
 def login_view(request):
     if request.method == 'POST':

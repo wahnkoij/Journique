@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('is_deleted', models.BooleanField(default=False)),
-                ('deleted_at', models.DateTimeField(default='2023-01-01 00:00:00', null=True)),
+                ('deleted_at', models.DateTimeField(default='2024-01-01 00:00:00', null=True)),
                 ('category', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='Journique.category')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
@@ -43,6 +43,7 @@ class Migration(migrations.Migration):
                 ('bio', models.TextField(blank=True)),
                 ('image', models.ImageField(default='/default_profile_image/blank_profile.png', upload_to='default_profile_image/')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('preferred_categories', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='Journique.Category')),
             ],
         ),
     ]

@@ -10,7 +10,9 @@ services:
     networks:
       - myproject-network
     volumes:
-      - ${PWD}/Journique:/app
+      - ./Journique:/app
+    environment:
+      - PWD=/app
   db:
     volumes:
       - postgres_data:/var/lib/postgresql/data

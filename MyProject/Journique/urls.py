@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('login/', login_view, name='login'),
     path('register/', register, name='register'),
+    path('select_preferred_categories/', select_preferred_categories, name='select_preferred_categories'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('delete_profile/', delete_profile, name='delete_profile'),
