@@ -6,13 +6,14 @@ Journique is an app designed for posting images and journaling. It provides a se
 
 ## Technologies Used
 
-- Python
-- Django (version==3.2)
+- Python3
+- Django 
 - HTML, CSS, JavaScript
-- Bootstrap 
 - PostgreSQL
 - Docker
 - Nginx
+- Django Rest Framework
+- Bootstrap 
 - Other relevant technologies...
 
 ## Installation
@@ -21,7 +22,7 @@ Follow these step-by-step instructions to install and run the Journique app.
 
 ### Prerequisites
 
-Make sure you have Python and pip installed on your machine.
+Make sure you have [Python](https://www.python.org/downloads/) and pip installed on your machine.
 
 ### Installation Steps
 
@@ -48,7 +49,7 @@ Make sure you have Python and pip installed on your machine.
 
 [Journique](https://github.com/wahnkoij/Journique) can also be run using Docker for containerization. Follow the steps below:
 
-1. Make sure you have Docker installed on your machine.
+1. Make sure you have [Docker](https://docs.docker.com/engine/install/) installed on your machine.
 
 2. Navigate to the project directory:
 
@@ -68,7 +69,7 @@ Make sure you have Python and pip installed on your machine.
     docker-compose exec web python manage.py migrate
     ```
 
-5. Open your web browser and navigate to http://localhost:8000/ to access the Journique app.
+5. Open your web browser and navigate to http://127.0.0.1:8000/home/ to access the Journique app.
 
 ### Customization
 
