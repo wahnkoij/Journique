@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 
 from .forms import *
 from .models import Pin, UserProfile, User
@@ -36,6 +37,15 @@ def user_profile(request, username):
 @login_required
 def profile_view(request):
     return render(request, 'profile.html')
+
+
+class MyPinsView(View):
+    template_name = 'my_pins.html'
+
+    def get(self, request, *args, **kwargs):
+        user_pins = Pin.objects.filter(user=request.user)
+        context = {'user_pins': user_pins}
+        return render(request, self.template_name, context)
 
 
 @login_required # имба
@@ -100,10 +110,21 @@ def delete_profile(request):
     return render(request, 'delete_profile.html')
 
 
-def search_users(request):  # search users (need others)
-    query = request.GET.get('q')
-    results = User.objects.filter(username__icontains=query)
-    return render(request, 'search_users.html', {'results': results, 'query': query})
+def search_results(request):
+    query = request.GET.get('q', '')
+    search_type = request.GET.get('search_type', 'pins')
+
+    results = []
+
+    if search_type == 'users':
+        results = User.objects.filter(username__icontains=query)
+    elif search_type == 'categories':
+        results = Category.objects.filter(name__icontains=query)
+    elif search_type == 'pins':
+        results = Pin.objects.filter(description__icontains=query)
+
+    context = {'results': results, 'query': query, 'search_type': search_type}
+    return render(request, 'search_results.html', context)
 
 
 # pins
@@ -166,3 +187,8 @@ def delete_pin(request, pin_id):
     return render(request, 'delete_pin.html', {'pin': pin})
 
 
+def category_pins(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    pins = Pin.objects.filter(category=category, is_deleted=False)
+    context = {'category': category, 'pins': pins}
+    return render(request, 'category_pins.html', context)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>My Pins</h2>
+    {% if user_pins %}
+        <div class="grid-container">
+            {% for pin in user_pins %}
+                <div class="grid-item">
+                    <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
+                    <p>{{ pin.description }}</p>
+                    <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No pins found.</p>
+    {% endif %}
+{% endblock %}

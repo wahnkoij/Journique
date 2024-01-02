@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Search Results</h2>
+    <p>Showing results for "<strong>{{ query }}</strong>" in {{ search_type }}:</p>
+
+    {% if search_type == 'users' %}
+        <ul>
+            {% for user in results %}
+                <li><a href="{% url 'user_profile' username=user.username %}">{{ user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    {% elif search_type == 'categories' %}
+        <ul>
+            {% for category in results %}
+                <li><a href="{% url 'category_pins' category_id=category.id %}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% elif search_type == 'pins' %}
+        <ul>
+            {% for pin in results %}
+                <li><a href="{% url 'pin_detail' pin_id=pin.id %}">{{ pin.description }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+{% endblock %}

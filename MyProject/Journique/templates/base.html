@@ -45,6 +45,7 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                    <li><a class="nav-link" href="{% url 'my_pins' %}">My Pins</a></li>
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                 {% endif %}
@@ -53,10 +54,16 @@
         </div>
 
         <!-- Search engine (поисковик) -->
-        <form class="form-inline search-form" method="get" action="{% url 'search_users' %}">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search users" name="q">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline search-form" method="get" action="{% url 'search_results' %}">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
+          <select class="form-control mr-sm-2" name="search_type">
+              <option value="users">Users</option>
+              <option value="categories">Categories</option>
+              <option value="pins">Pins</option>
+          </select>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+
     </nav>
 
     {% block content %}{% endblock %}
