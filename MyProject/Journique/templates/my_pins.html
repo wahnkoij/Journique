@@ -6,9 +6,9 @@
         <div class="grid-container">
             {% for pin in user_pins %}
                 <div class="grid-item">
-                    <img src="{{ pin.file.url }}" alt="{{ pin.description }}">
-                    <p>{{ pin.description }}</p>
-                    <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
+                    <a href="{% url 'pin_detail' pin_id=pin.id %}">
+                    <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
+                    </a>
                 </div>
             {% endfor %}
         </div>

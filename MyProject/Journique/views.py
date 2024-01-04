@@ -19,18 +19,19 @@ def home(request):
         # If the user is not authenticated,  show all pins
         pins = Pin.objects.filter(is_deleted=False)
 
-    context = {'pins': pins}
+    context = {'pins': pins, 'user': user}
     return render(request, 'home.html', context)
 
 
-def user_list(request): # all users
+def user_list(request):
     users = User.objects.all()
     return render(request, 'user_list.html', {'users': users})
 
 
 def user_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    return render(request, 'user_profile.html', {'user': user})
+    user = request.user
+    user_viewed = get_object_or_404(User, username=username)
+    return render(request, 'user_profile.html', {'user_viewed': user_viewed, 'user': user})
 
 
 # profile interaction
@@ -43,12 +44,15 @@ class MyPinsView(View):
     template_name = 'my_pins.html'
 
     def get(self, request, *args, **kwargs):
-        user_pins = Pin.objects.filter(user=request.user)
-        context = {'user_pins': user_pins}
-        return render(request, self.template_name, context)
+        if request.user.is_authenticated:
+            user_pins = Pin.objects.filter(user=request.user)
+            context = {'user_pins': user_pins}
+            return render(request, self.template_name, context)
+        else:
+            return redirect('login')  # Redirect non-authenticated users to the login page
 
 
-@login_required # имба
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UserChangeForm(request.POST, instance=request.user)
@@ -89,6 +93,7 @@ def select_preferred_categories(request):
 
     context = {'form': form}
     return render(request, 'select_preferred_categories.html', context)
+
 
 def login_view(request):
     if request.method == 'POST':

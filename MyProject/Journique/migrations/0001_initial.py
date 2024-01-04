@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                 ('bio', models.TextField(blank=True)),
                 ('image', models.ImageField(default='/default_profile_image/blank_profile.png', upload_to='default_profile_image/')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('preferred_categories', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='Journique.Category')),
+                ('preferred_categories', models.ManyToManyField(default=1, to='Journique.Category')),
             ],
         ),
     ]

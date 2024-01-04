@@ -7,21 +7,21 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2>{{ user.username }}'s Profile</h2>
+                        <h2>{{ user_viewed.username }}'s Profile</h2>
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            {% if user.userprofile.image %}
-                                <img src="{{ user.userprofile.image.url }}" alt="{{ user.username }}'s profile image" class="profile-image">
+                            {% if user_viewed.userprofile.image %}
+                                <img src="{{ user_viewed.userprofile.image.url }}" alt="{{ user_viewed.username }}'s profile image" class="profile-image">
                             {% else %}
                                 <img src="{% static 'default_profile_image/blank_profile.png' %}" alt="Default profile image" class="profile-image">
                             {% endif %}
                         </div>
-                        <p class="mt-3">Username: {{ user.username }}</p>
-                        <p>Email: {{ user.email }}</p>
-                        <p>Bio: {{ user.userprofile.bio }}</p>
+                        <p class="mt-3">Username: {{ user_viewed.username }}</p>
+                        <p>Email: {{ user_viewed.email }}</p>
+                        <p>Bio: {{ user_viewed.userprofile.bio }}</p>
                         <!-- later add pins of this user -->
-                        {% if request.user == user %}
+                        {% if request.user == user_viewed %}
                             <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
                         {% endif %}
                     </div>

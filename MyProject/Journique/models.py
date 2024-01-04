@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     image = models.ImageField(upload_to='default_profile_image/', default='/default_profile_image/blank_profile.png')
-    preferred_categories = models.ManyToManyField(Category, blank=True)
+    preferred_categories = models.ManyToManyField(Category, default=1)
 
 
 @receiver(post_save, sender=User)
