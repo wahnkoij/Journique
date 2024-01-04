@@ -1,23 +1,54 @@
-<!-- pin_detail.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="pin-detail">
-    <h2>Pin Detail</h2>
-    <div class="pin-details-container">
-      <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="pin-image">
-      <div class="pin-details">
+<style>
+  .pin-detail {
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .pin-image {
+    max-width: 500px;
+    max-height: 500px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+
+  .pin-details {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+</style>
+
+<div class="pin-detail">
+    <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="pin-image">
+    <div class="pin-details">
+        <h2>Pin Detail</h2>
         <p>{{ pin.description }}</p>
-        <p>Uploaded by: {{ pin.user.username }}</p>
+        <p>Uploaded by: <a href="{% url 'user_profile' pin.user.username %}">{{ pin.user.username }}</a></p>
         <p>Category: {{ pin.category.name }}</p>
         <p>Uploaded at: {{ pin.uploaded_at }}</p>
-        {# Add more details as needed #}
-      </div>
+        <a href="{% url 'pin_list' %}">Back to Pin List</a>
+        {% if pin.user == request.user %}
+            <a href="{% url 'edit_pin' pin.id %}" class="btn btn-primary">Edit Pin</a>
+        {% endif %}
     </div>
-    <a href="{% url 'pin_list' %}">Back to Pin List</a>
+</div>
 
-    {% if pin.user == request.user %}
-      <a href="{% url 'edit_pin' pin.id %}" class="btn btn-primary">Edit Pin</a>
-    {% endif %}
-  </div>
 {% endblock %}

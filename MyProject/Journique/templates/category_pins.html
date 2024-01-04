@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <h2>{{ category.name }} Pins</h2>
-    <div class="grid-container">
-        {% for pin in pins %}
-            <div class="grid-item">
-                <a href="{% url 'pin_detail' pin_id=pin.id %}">
-                    <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
-                </a>
-            </div>
-        {% endfor %}
+    <div class="container-fluid">
+        <div class="grid-container">
+            {% for pin in pins %}
+                <div class="pin-item">
+                    <a href="{% url 'pin_detail' pin_id=pin.id %}">
+                        <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

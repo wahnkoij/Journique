@@ -21,9 +21,6 @@
                         <p>Email: {{ user_viewed.email }}</p>
                         <p>Bio: {{ user_viewed.userprofile.bio }}</p>
                         <!-- later add pins of this user -->
-                        {% if request.user == user_viewed %}
-                            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
-                        {% endif %}
                     </div>
                 </div>
             </div>

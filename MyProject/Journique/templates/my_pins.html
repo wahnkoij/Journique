@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+
     <h2>My Pins</h2>
     {% if user_pins %}
-        <div class="grid-container">
-            {% for pin in user_pins %}
-                <div class="grid-item">
-                    <a href="{% url 'pin_detail' pin_id=pin.id %}">
-                    <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
+        <div class="container-fluid">
+            <div class="grid-container">
+                {% for pin in user_pins %}
+                    <div class="pin-item">
+                        <a href="{% url 'pin_detail' pin_id=pin.id %}">
+                        <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
                     </a>
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% else %}
         <p>No pins found.</p>

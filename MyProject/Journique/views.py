@@ -1,5 +1,5 @@
 from django.contrib.auth import login as auth_login, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -31,10 +31,21 @@ def user_list(request):
 def user_profile(request, username):
     user = request.user
     user_viewed = get_object_or_404(User, username=username)
+    if user == user_viewed:
+        return render(request, 'profile.html')
+
     return render(request, 'user_profile.html', {'user_viewed': user_viewed, 'user': user})
 
 
 # profile interaction
+def is_superuser_request_user(request, user):
+    return user.is_superuser or user == request.user
+
+
+def is_superuser(request, user):
+    return user.is_superuser
+
+
 @login_required
 def profile_view(request):
     return render(request, 'profile.html')
@@ -69,6 +80,15 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+@login_required
+def delete_profile(request):
+    if request.method == 'POST':
+        request.user.delete()
+        return redirect('home')
+
+    return render(request, 'delete_profile.html')
+
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -80,6 +100,7 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
+
 
 @login_required
 def select_preferred_categories(request):
@@ -104,15 +125,6 @@ def login_view(request):
             auth_login(request, user)
             return redirect('home')
     return render(request, 'login.html')
-
-
-@login_required
-def delete_profile(request):
-    if request.method == 'POST':
-        request.user.delete()
-        return redirect('home')
-
-    return render(request, 'delete_profile.html')
 
 
 def search_results(request):
@@ -153,7 +165,7 @@ def add_pin(request):
             pin.user = request.user
             pin.save()
 
-            return redirect('pin_list')
+            return redirect('home')
     else:
         form = PinForm()
 
@@ -179,6 +191,7 @@ def edit_pin(request, pin_id):
     return render(request, 'edit_pin.html', {'form': form, 'pin': pin})
 
 
+@login_required()
 def delete_pin(request, pin_id):
     pin = get_object_or_404(Pin, id=pin_id)
 

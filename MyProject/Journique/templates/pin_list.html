@@ -8,28 +8,18 @@
       justify-content: space-around;
     }
 
-    .pin-item {
-      text-align: center;
-      margin: 10px;
-    }
-
-    .pin-image {
-      width: 200px;
-      height: 150px;
-      object-fit: cover;
-      border: 1px solid #ccc;
-    }
   </style>
 
   <h2>Pin List</h2>
-  <div class="pin-list">
-    {% for pin in pins %}
-      <div class="pin-item">
-        <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="pin-image">
-        <p>{{ pin.description }}</p>
-        <a href="{% url 'pin_detail' pin_id=pin.id %}">View Details</a>
-      </div>
-    {% endfor %}
-  </div>
-  <a href="{% url 'add_pin' %}">Add Pin</a>
+  <div class="container-fluid">
+        <div class="grid-container">
+            {% for pin in pins %}
+                <div class="pin-item">
+                    <a href="{% url 'pin_detail' pin_id=pin.id %}">
+                        <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
