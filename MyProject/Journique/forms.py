@@ -21,3 +21,9 @@ class PreferredCategoriesForm(forms.ModelForm):
         model = UserProfile
         fields = ['preferred_categories']
         widgets = {'preferred_categories': forms.CheckboxSelectMultiple(choices=Category.objects.all())}
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']

@@ -45,8 +45,10 @@
         <p>Category: {{ pin.category.name }}</p>
         <p>Uploaded at: {{ pin.uploaded_at }}</p>
         <a href="{% url 'pin_list' %}">Back to Pin List</a>
-        {% if pin.user == request.user %}
+
+        {% if pin.user == request.user or request.user.is_superuser %}
             <a href="{% url 'edit_pin' pin.id %}" class="btn btn-primary">Edit Pin</a>
+            <a href="{% url 'delete_pin' pin.id %}" class="btn btn-primary">Delete Pin</a>
         {% endif %}
     </div>
 </div>

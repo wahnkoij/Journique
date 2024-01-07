@@ -1,7 +1,7 @@
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
@@ -178,22 +178,41 @@ def page_not_found_404(request):
 
 @login_required
 def edit_pin(request, pin_id):
+    print(f"Edit Pin view called for pin_id: {pin_id}")
     pin = get_object_or_404(Pin, id=pin_id, user=request.user)
+
+    print(f"User: {request.user}")
+    print(f"Is Superuser: {request.user.is_superuser}")
+    print(f"Pin User: {pin.user}")
+
+    # Simplified permission check
+    if not request.user.is_superuser and pin.user != request.user:
+        print(f"User {request.user} does not have permission to edit pin {pin_id}")
+        return HttpResponseForbidden("You don't have permission to edit this pin.")
 
     if request.method == 'POST':
         form = PinForm(request.POST, instance=pin)
         if form.is_valid():
             form.save()
             return redirect('pin_detail', pin_id=pin.id)
+        else:
+            print(form.errors)
     else:
         form = PinForm(instance=pin)
 
     return render(request, 'edit_pin.html', {'form': form, 'pin': pin})
 
 
+
 @login_required()
 def delete_pin(request, pin_id):
+    print(f"delete Pin view called for pin_id: {pin_id}")
     pin = get_object_or_404(Pin, id=pin_id)
+
+    # Проверка, что пользователь имеет право удалять пин
+    if not (request.user.is_superuser or pin.user == request.user):
+        print(f"User {request.user} does not have permission to delete pin {pin_id}")
+        return HttpResponseForbidden("You don't have permission to delete this pin.")
 
     if request.method == 'POST':
         pin.delete()
@@ -210,3 +229,52 @@ def category_pins(request, category_id):
     pins = Pin.objects.filter(category=category, is_deleted=False)
     context = {'category': category, 'pins': pins}
     return render(request, 'category_pins.html', context)
+
+
+# superuser privileges
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
+def superuser_pin_management(request):
+    pins = Pin.objects.all()
+    context = {'pins': pins}
+    return render(request, 'superuser_pin_management.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
+def superuser_category_management(request):
+    categories = Category.objects.all()
+    form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'categories': categories, 'form': form}
+    return render(request, 'superuser_category_management.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = CategoryForm(instance=category)
+
+    return render(request, 'edit_category.html', {'form': form, 'category': category})
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        category.delete()
+        return redirect('home')
+
+    return render(request, 'delete_category.html', {'category': category})

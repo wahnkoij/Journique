@@ -29,10 +29,14 @@
                 {% if user.is_authenticated %}
                     <li><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
                     <li><a class="nav-link" href="{% url 'my_pins' %}">My Pins</a></li>
+                    <li><a class="nav-link" href="{% url 'add_pin' %}">Add Pin</a></li>
+                    {% if user.is_superuser %}
+                        <li><a class="nav-link" href="{% url 'superuser_pin_management' %}">Image Management</a></li>
+                        <li><a class="nav-link" href="{% url 'superuser_category_management' %}">Category Management</a></li>
+                    {% endif %}
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                 {% endif %}
-                <li><a class="nav-link" href="{% url 'add_pin' %}">Add Pin</a></li>
             </ul>
         </div>
 

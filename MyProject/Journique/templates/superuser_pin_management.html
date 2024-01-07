@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .pin-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+  </style>
+
+  <h2>Pin List</h2>
+  <div class="container-fluid">
+    <div class="grid-container">
+      {% for pin in pins %}
+        <div class="pin-item">
+          <a href="{% url 'pin_detail' pin_id=pin.id %}">
+            <img src="{{ pin.file.url }}" alt="{{ pin.description }}" class="img-thumbnail">
+          </a>
+          {% if user.is_superuser %}
+            <a href="{% url 'edit_pin' pin.id %}">Edit</a>
+            <a href="{% url 'delete_pin' pin.id %}">Delete</a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

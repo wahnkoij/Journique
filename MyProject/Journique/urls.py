@@ -27,4 +27,9 @@ urlpatterns = [
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('delete_profile/', delete_profile, name='delete_profile'),
     path('page_not_found_404/', page_not_found_404, name='404_error'),
+    # superuser
+    path('superuser/pins/', superuser_pin_management, name='superuser_pin_management'),
+    path('superuser/categories/', superuser_category_management, name='superuser_category_management'),
+    path('superuser/categories/edit/<int:category_id>/', edit_category, name='edit_category'),
+    path('superuser/categories/delete/<int:category_id>/', delete_category, name='delete_category'),
 ]
