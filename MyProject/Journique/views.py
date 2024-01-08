@@ -176,35 +176,32 @@ def page_not_found_404(request):
     return render(request, '404_error.html')
 
 
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
 @login_required
 def edit_pin(request, pin_id):
     print(f"Edit Pin view called for pin_id: {pin_id}")
-    pin = get_object_or_404(Pin, id=pin_id, user=request.user)
 
-    print(f"User: {request.user}")
-    print(f"Is Superuser: {request.user.is_superuser}")
-    print(f"Pin User: {pin.user}")
+    if not request.user.is_authenticated:
+        print("User is not authenticated.")
+        return redirect('login')
 
-    # Simplified permission check
-    if not request.user.is_superuser and pin.user != request.user:
-        print(f"User {request.user} does not have permission to edit pin {pin_id}")
-        return HttpResponseForbidden("You don't have permission to edit this pin.")
+    pin = get_object_or_404(Pin, id=pin_id)
 
     if request.method == 'POST':
         form = PinForm(request.POST, instance=pin)
         if form.is_valid():
             form.save()
+            print(f"Pin updated successfully: {pin}")
             return redirect('pin_detail', pin_id=pin.id)
         else:
-            print(form.errors)
+            print(f"Form errors: {form.errors}")
     else:
         form = PinForm(instance=pin)
 
     return render(request, 'edit_pin.html', {'form': form, 'pin': pin})
 
 
-
-@login_required()
+@login_required
 def delete_pin(request, pin_id):
     print(f"delete Pin view called for pin_id: {pin_id}")
     pin = get_object_or_404(Pin, id=pin_id)
