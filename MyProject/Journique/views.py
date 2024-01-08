@@ -176,16 +176,20 @@ def page_not_found_404(request):
     return render(request, '404_error.html')
 
 
-@user_passes_test(lambda u: u.is_superuser, login_url='home')
 @login_required
 def edit_pin(request, pin_id):
     print(f"Edit Pin view called for pin_id: {pin_id}")
 
+    # Ensure the user is logged in
     if not request.user.is_authenticated:
         print("User is not authenticated.")
-        return redirect('login')
+        return redirect('login')  # Redirect non-authenticated users to the login page
 
     pin = get_object_or_404(Pin, id=pin_id)
+
+    if not (request.user.is_superuser or pin.user == request.user):
+        print(f"User {request.user} does not have permission to edit pin {pin_id}")
+        return HttpResponseForbidden("You don't have permission to edit this pin.")
 
     if request.method == 'POST':
         form = PinForm(request.POST, instance=pin)
