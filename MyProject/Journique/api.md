@@ -187,4 +187,3 @@ Delete a specific category.
 
 ---
 
-These are basic examples, and you can further elaborate on them based on your requirements. Ensure you replace `<your_token>` with the actual authentication token in the headers. Also, make sure to have proper authentication and authorization in place for your API views.
