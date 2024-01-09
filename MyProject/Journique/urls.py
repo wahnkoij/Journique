@@ -39,4 +39,6 @@ urlpatterns = [
     path('api/users/<int:pk>/', UserRetrieveUpdateDeleteView.as_view(), name='user-retrieve-update-delete'),
     path('api/categories/', CategoryListCreateView.as_view(), name='category-list-create'),
     path('api/categories/<int:pk>/', CategoryRetrieveUpdateDeleteView.as_view(), name='category-retrieve-update-delete'),
+
+
 ]
