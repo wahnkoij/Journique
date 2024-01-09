@@ -12,7 +12,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .navbar-nav .nav-link {
+            font-size: 14px;
+            padding: 0.5rem 0.75rem;
+        }
 
+        .search-form button {
+            font-size: 14px;
+            padding: 0.3rem 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,7 +43,11 @@
                     {% if user.is_superuser %}
                         <li><a class="nav-link" href="{% url 'superuser_pin_management' %}">Image Management</a></li>
                         <li><a class="nav-link" href="{% url 'superuser_category_management' %}">Category Management</a></li>
-                    {% endif %}
+                        <!-- buttons for API views -->
+                        <li><a class="nav-link" href="{% url 'pin-list-create' %}">API: List/Create Pins</a></li>
+                        <li><a class="nav-link" href="{% url 'user-list-create' %}">API: List Users</a></li>
+                        <li><a class="nav-link" href="{% url 'category-list-create' %}">API: List/Create Categories</a></li>
+                        {% endif %}
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                 {% endif %}

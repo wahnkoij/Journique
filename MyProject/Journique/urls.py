@@ -32,7 +32,11 @@ urlpatterns = [
     path('superuser/categories/', superuser_category_management, name='superuser_category_management'),
     path('superuser/categories/edit/<int:category_id>/', edit_category, name='edit_category'),
     path('superuser/categories/delete/<int:category_id>/', delete_category, name='delete_category'),
-    # DRF
+    # API for pins, users and categories
     path('api/pins/', PinListCreateView.as_view(), name='pin-list-create'),
     path('api/pins/<int:pk>/', PinRetrieveUpdateDeleteView.as_view(), name='pin-retrieve-update-delete'),
+    path('api/users/', UserListCreateView.as_view(), name='user-list-create'),
+    path('api/users/<int:pk>/', UserRetrieveUpdateDeleteView.as_view(), name='user-retrieve-update-delete'),
+    path('api/categories/', CategoryListCreateView.as_view(), name='category-list-create'),
+    path('api/categories/<int:pk>/', CategoryRetrieveUpdateDeleteView.as_view(), name='category-retrieve-update-delete'),
 ]
