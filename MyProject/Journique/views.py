@@ -4,19 +4,25 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
+from .serializers import *
 from .forms import *
 from .models import Pin, UserProfile, User
 
 
 def home(request):
+    """
+    View for the home page displaying pins based on user preferences.
+    """
     user = request.user
     if user.is_authenticated:
         user_profile = UserProfile.objects.get_or_create(user=user)[0]
         preferred_categories = user_profile.preferred_categories.all()
         pins = Pin.objects.filter(category__in=preferred_categories, is_deleted=False)
     else:
-        # If the user is not authenticated,  show all pins
+        # If the user is not authenticated, show all pins
         pins = Pin.objects.filter(is_deleted=False)
 
     context = {'pins': pins, 'user': user}
@@ -24,6 +30,9 @@ def home(request):
 
 
 def user_list(request):
+    """
+    View for listing all users.
+    """
     users = User.objects.all()
     return render(request, 'user_list.html', {'users': users})
 
@@ -52,6 +61,9 @@ def profile_view(request):
 
 
 class MyPinsView(View):
+    """
+    View for displaying pins uploaded by the current user.
+    """
     template_name = 'my_pins.html'
 
     def get(self, request, *args, **kwargs):
@@ -104,6 +116,9 @@ def register(request):
 
 @login_required
 def select_preferred_categories(request):
+    """
+    View for selecting preferred categories to view pins only from those
+    """
     if request.method == 'POST':
         form = PreferredCategoriesForm(request.POST, instance=request.user.userprofile)
         if form.is_valid():
@@ -128,6 +143,9 @@ def login_view(request):
 
 
 def search_results(request):
+    """
+    view for searching users or categories or pins
+    """
     query = request.GET.get('q', '')
     search_type = request.GET.get('search_type', 'pins')
 
@@ -151,6 +169,9 @@ def pin_list(request):
 
 
 def pin_detail(request, pin_id):
+    """
+    view for detailed information about the pin
+    """
     pin = Pin.objects.get(id=pin_id)
     return render(request, 'pin_detail.html', {'pin': pin})
 
@@ -178,15 +199,18 @@ def page_not_found_404(request):
 
 @login_required
 def edit_pin(request, pin_id):
+    """
+    view for editing a pin (only for the user uploaded the pin and a superuser)
+    """
     print(f"Edit Pin view called for pin_id: {pin_id}")
 
-    # Ensure the user is logged in
     if not request.user.is_authenticated:
         print("User is not authenticated.")
         return redirect('login')  # Redirect non-authenticated users to the login page
 
     pin = get_object_or_404(Pin, id=pin_id)
 
+    # Check the rights
     if not (request.user.is_superuser or pin.user == request.user):
         print(f"User {request.user} does not have permission to edit pin {pin_id}")
         return HttpResponseForbidden("You don't have permission to edit this pin.")
@@ -207,10 +231,13 @@ def edit_pin(request, pin_id):
 
 @login_required
 def delete_pin(request, pin_id):
+    """
+        view for deleting s pin (only for the user uploaded the pin and a superuser)
+    """
     print(f"delete Pin view called for pin_id: {pin_id}")
     pin = get_object_or_404(Pin, id=pin_id)
 
-    # Проверка, что пользователь имеет право удалять пин
+    # Check the rights
     if not (request.user.is_superuser or pin.user == request.user):
         print(f"User {request.user} does not have permission to delete pin {pin_id}")
         return HttpResponseForbidden("You don't have permission to delete this pin.")
@@ -226,6 +253,9 @@ def delete_pin(request, pin_id):
 
 
 def category_pins(request, category_id):
+    """
+    view for displaying pins from a certain category
+    """
     category = Category.objects.get(pk=category_id)
     pins = Pin.objects.filter(category=category, is_deleted=False)
     context = {'category': category, 'pins': pins}
@@ -235,6 +265,9 @@ def category_pins(request, category_id):
 # superuser privileges
 @user_passes_test(lambda u: u.is_superuser, login_url='home')
 def superuser_pin_management(request):
+    """
+    view for superusers only to manage all the pins
+    """
     pins = Pin.objects.all()
     context = {'pins': pins}
     return render(request, 'superuser_pin_management.html', context)
@@ -242,6 +275,9 @@ def superuser_pin_management(request):
 
 @user_passes_test(lambda u: u.is_superuser, login_url='home')
 def superuser_category_management(request):
+    """
+    view for superusers only to manage all the categories
+    """
     categories = Category.objects.all()
     form = CategoryForm()
 
@@ -279,3 +315,18 @@ def delete_category(request, category_id):
         return redirect('home')
 
     return render(request, 'delete_category.html', {'category': category})
+
+
+class PinListCreateView(generics.ListCreateAPIView):
+    queryset = Pin.objects.all()
+    serializer_class = PinSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PinRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pin.objects.all()
+    serializer_class = PinSerializer
+    permission_classes = [IsAuthenticated]
