@@ -4,7 +4,7 @@
 
 Journique is an app designed for posting images and journaling. It provides a seamless platform for users to express their thoughts through text and multimedia, creating a rich and personalized journaling experience.
 
-![example of main page of the server](https://github.com/wahnkoij/Journique/blob/master/Journique_example_filling.jpg?raw=true "example of main page of the server")
+![example of main page of the server](https://github.com/wahnkoij/Journique/blob/master/Journique_example.jpg?raw=true "example of main page of the server")
 
 ## Technologies Used
 
